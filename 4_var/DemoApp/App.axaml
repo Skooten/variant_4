@@ -1,0 +1,28 @@
+<Application xmlns="https://github.com/avaloniaui" 
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+x:Class="DemoApp.App" 
+xmlns:local="using:DemoApp" 
+RequestedThemeVariant="Default"> 
+<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. --> 
+<Application.DataTemplates> 
+<local:ViewLocator/> 
+</Application.DataTemplates> 
+<Application.Styles> 
+<FluentTheme /> 
+       <!-- Базовый стиль для всего текста -->
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Candara"/>
+        </Style>
+<Style Selector="TextBlock.h1"> 
+<Setter Property="FontSize" Value="24"/> 
+<Setter Property="FontWeight" Value="Bold"/> 
+<Setter Property="Foreground" Value="#355CBD"/> 
+</Style> 
+<Style Selector="StackPanel.main"> 
+<Setter Property="Background" Value="#D2DFFF"/> 
+</Style> 
+<Style Selector="Button"> 
+<Setter Property="Background" Value="#355CBD"/> 
+</Style> 
+</Application.Styles> 
+</Application>

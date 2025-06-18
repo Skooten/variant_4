@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DemoApp.Views.ProductView"
+             xmlns:vm="using:DemoApp.ViewModels"
+             xmlns:models="using:DemoApp.Models"
+             x:DataType="vm:ProductViewModel">
+    <Grid Margin="20">
+        <StackPanel Spacing="10" Classes="main">
+            <TextBlock Text="Список продуктов" Classes="h1" />
+            
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <Button Content="Добавить продукт" Command="{Binding AddProductCommand}" />
+                <Button Content="Редактировать" Command="{Binding EditProductCommand}" />
+            </StackPanel>
+            
+            <ListBox ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}"
+                    MaxHeight="800">
+                <Interaction.Behaviors>
+                    <EventTriggerBehavior EventName="SelectionChanged">
+                        <InvokeCommandAction Command="{Binding EditProductCommand}" 
+                                           CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                    </EventTriggerBehavior>
+                </Interaction.Behaviors>
+                
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="models:Product">
+                        <Grid HorizontalAlignment="Stretch" Margin="5">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+    
+    <!-- Левая часть - основное содержимое -->
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="{Binding ProductType.ProductTypeName, FallbackValue='Тип не указан'}" 
+                      TextWrapping="Wrap" 
+                      Width="75"/>
+            <TextBlock Text=" | " TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding ProductName, FallbackValue='Без названия'}" 
+                      TextWrapping="Wrap" 
+                      Width="400"/>
+        </StackPanel>
+        <TextBlock Text="{Binding ProductArticle, FallbackValue='Без артикула'}" 
+                  TextWrapping="Wrap" 
+                  Width="250"
+                  HorizontalAlignment="Left"/>
+        <TextBlock Text="{Binding MinimumCostForPartner, StringFormat='Минимальная стоимость: {0:C}', FallbackValue='Стоимость не указана'}" 
+                  TextWrapping="Wrap" 
+                  Width="400"
+                  HorizontalAlignment="Left"/>
+        <TextBlock Text="{Binding MaterialType.MaterialTypeName, FallbackValue='Материал не указан'}" 
+                  TextWrapping="Wrap" 
+                  Width="250"
+                  HorizontalAlignment="Left"/>
+    </StackPanel>
+    
+    <!-- Правая часть - время изготовления -->
+    <TextBlock Grid.Column="1"
+              Text="{Binding TotalManufacturingTimeHours, StringFormat='Время изготовления: {0} ч'}" 
+              TextWrapping="Wrap"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Margin="0,0,10,0"
+              Classes="timeDisplay"/>
+</Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:DemoApp.ViewModels"
+             xmlns:entities="clr-namespace:DemoApp.Entities"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DemoApp.Views.EditProductView"
+             x:DataType="vm:EditProductViewModel">
+
+  <Grid Margin="20">
+    <StackPanel Spacing="10">
+      <TextBlock Text="Редактирование продукта" FontSize="24" FontWeight="Bold" />
+      
+      <TextBlock Text="{Binding ErrorMessage}"
+                 Foreground="Red"
+                 IsVisible="{Binding ErrorMessage, Converter={x:Static ObjectConverters.IsNotNull}}"
+                 TextWrapping="Wrap" />
+      
+      <Grid ColumnDefinitions="150,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Артикул:" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ProductArticle}" />
+        
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Название:" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ProductName}" />
+        
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Минимальная стоимость:" />
+        <NumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding MinimumCostForPartner}" Minimum="0" Increment="0.01" />
+        
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Тип продукта:" />
+        <ComboBox Grid.Row="3" Grid.Column="1"
+                  ItemsSource="{Binding ProductTypes}"
+                  SelectedItem="{Binding SelectedProductType, Mode=TwoWay}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="entities:ProductType">
+              <TextBlock Text="{Binding ProductTypeName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Тип материала:" />
+        <ComboBox Grid.Row="4" Grid.Column="1"
+                  ItemsSource="{Binding MaterialTypes}"
+                  SelectedItem="{Binding SelectedMaterialType, Mode=TwoWay}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate x:DataType="entities:MaterialType">
+              <TextBlock Text="{Binding MaterialTypeName}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+      </Grid>
+
+      <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
+        <Button Content="Сохранить" Command="{Binding SaveCommand}" />
+        <Button Content="Отмена" Command="{Binding CancelCommand}" />
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</UserControl>
